@@ -8,13 +8,23 @@ import {  IndexLink, Link }  from 'react-router'
 
 export default class Header extends React.Component{
 
+
   constructor(props) {
     super(props);
     this.state = {openDrawer: false};
-  }
+
+  };
 
   handleToggle = () => this.setState({openDrawer: !this.state.openDrawer});
   handleClose = () => this.setState({openDrawer: false});
+  goToLogin(){
+     this.context.router.push('/login')
+     this.handleClose();
+  }
+  goToLogin(){
+     this.context.router.replace('/')
+     this.handleClose();
+  }
 render(){
   return(
     <div>
@@ -29,14 +39,15 @@ render(){
         onRequestChange={this.handleClose.bind(this)}
       >
         <h1>Aquí va el<br/> logo</h1>
-        <MenuItem onTouchTap={this.handleClose.bind(this)}><Link to='counter'>goToCount</Link></MenuItem>
-        <MenuItem onTouchTap={this.handleClose.bind(this)}>Mis favoritos</MenuItem>
+        <MenuItem onTouchTap={this.handleClose.bind(this)}>goToCount</MenuItem>
+        <MenuItem onTouchTap={this.goToLogin.bind(this)}>Salir</MenuItem>
       </Drawer>
-      <h1>EL troleo es real</h1>
-      <div>{this.props.children}</div>
     </div>
     )
 }
 
 
+}
+Header.contextTypes = {
+  router: React.PropTypes.object.isRequired
 }
