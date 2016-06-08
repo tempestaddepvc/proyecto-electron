@@ -6,7 +6,7 @@ class UserStore extends EventEmitter{
 
   }
 
-  
+
   getUsername(){
     return this.username;
   }
@@ -18,17 +18,19 @@ class UserStore extends EventEmitter{
       case "LOG_IN": {
         this.apiKey=action.usuario.apiKey;
         this.username=action.usuario.user;
-        console.log(this)
+        this.emit('change');
         break;
       }
       case "LOG_OUT": {
-
+        this.apiKey=undefined;
+        this.username=undefined;
+        this.emit('change');
         break;
       }
     }
-  console.log("pene")}
-  const = userStore= new UserStore;
-}
 
+}
+}
+const  userStore= new UserStore;
 dispatcher.register(userStore.handleActions.bind(userStore));
 export default userStore;

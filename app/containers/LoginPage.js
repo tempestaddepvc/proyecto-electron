@@ -7,7 +7,7 @@ export default class Header extends React.Component{
 render(){
   const styleDiv = {
    textAlign: 'center',
-   marginTop: '100px'
+   marginTop: '40px'
   }
   const stylePaper = {
     height: 470,
