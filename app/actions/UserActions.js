@@ -1,10 +1,10 @@
 import dispatcher from "../dispatcher";
-import axios from "axios";
+import axios from "./axiosConfig";
 import querystring  from 'querystring';
 //...
 export function logIn(user,password){
 
-  axios.post('http://52.31.144.145/api/v1/login',querystring.stringify( {
+  axios.post('/login',querystring.stringify( {
     user: user,
     password: password
   }))

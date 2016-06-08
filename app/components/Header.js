@@ -11,6 +11,7 @@ import dispatcher from "../dispatcher";
 import Snackbar from 'material-ui/Snackbar';
 
 
+
 export default class Header extends React.Component{
 
   constructor(props) {
@@ -18,48 +19,59 @@ export default class Header extends React.Component{
     this.state = {
       openDrawer: false,
       openSnackbar: false,
-      message: 'Mensaje'
+      message: 'Mensaje',
+      disabledButton: true,
     };
 
   };
 
   componentWillMount() {
-    UserStore.on("change", this.onUserChange);
-    dispatcher.register(this.handleDispatch);
+    UserStore.on("change", () => this.onUserChange());
+    dispatcher.register(this.handleDispatch.bind(this));
   };
 
   handleDispatch(action){
     switch(action.type) {
       case "MESSAGE": {
-        console.log("hasta aquí llego")
-       ;
+        this.showSnackbar(action.message) ;
         break;
       }
 
     }
 
   };
-  showSnackbar(message){
-    this.setState({
-      openSnackbar:true,
-      message: message
-    })
-  };
+
   componentWillUnmount() {
-    UserStore.removeListener("change", this.onUserChange);
+    UserStore.removeListener("change", this.onUserChange.bind(this));
   };
 
   onUserChange(){
-    if(UserStore.user==undefined){
-      this.showSnackbar("Logged out ");
+    if(UserStore.getUsername()==undefined){
+      this.showSnackbar("Logged out");
+      this.setState(
+        {
+          disabledButton:true,
+        }
+      )
       this.goToLogin();
 
     }
     else{
-
-
+        this.setState(
+          {
+            disabledButton:false,
+          }
+        )
+        this.goToRecipes();
     }
   };
+  showSnackbar = (message) => {
+    this.setState({
+      openSnackbar: true,
+      message
+    });
+  };
+
   handleSnackbarClose = () => {
     this.setState({
       openSnackbar: false,
@@ -74,12 +86,16 @@ export default class Header extends React.Component{
      this.context.router.replace('/')
      this.handleDrawerClose();
   };
+  goToRecipes(){
+     this.context.router.replace('/recipes')
+     this.handleDrawerClose();
+  };
   render(){
   return(
     <div>
         <AppBar
         title="Proyecto final"
-        iconElementLeft={<IconButton onTouchTap={this.handleDrawerToggle.bind(this)}><NavigationMenu /></IconButton>}
+        iconElementLeft={<IconButton disabled={this.state.disabledButton} onTouchTap={this.handleDrawerToggle.bind(this)}><NavigationMenu /></IconButton>}
       />
       <Drawer
         docked={false}
@@ -102,7 +118,7 @@ export default class Header extends React.Component{
     )
 }
 
-
+self=this;
 }
 Header.contextTypes = {
   router: React.PropTypes.object.isRequired
