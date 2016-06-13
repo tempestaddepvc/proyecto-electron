@@ -29,6 +29,7 @@ export function logIn(user,password){
     }
   })
   .catch(function (response) {
+    console.log(response);
     dispatcher.dispatch({type:'MESSAGE',message:response.data.message});
   });
 }
