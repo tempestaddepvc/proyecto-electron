@@ -3,43 +3,19 @@ import FlatButton from 'material-ui/FlatButton'
 import {Card, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import ActionFavorite from 'material-ui/svg-icons/action/favorite';
 import IconButton from 'material-ui/IconButton';
-import {red500} from 'material-ui/styles/colors';
-import FullRecipeDialog from './FullRecipeDialog';
+import {red500,green500,yellow500} from 'material-ui/styles/colors';
 import axios from "../actions/axiosConfig";
-import RecipesStore from "../stores/RecipesStore";
 import * as RecipesActions from "../actions/RecipesActions";
+import Difficulty from './Difficulty';
 export default class Recipe extends React.Component{
   constructor(props) {
     super(props);
-    this.state = {
-      open:false,
-      recipeInformation: {}
-    }
     };
-    componentWillMount() {
-      RecipesStore.on("fetchedRecipe", () => this.onRecipeFetched());
-
+    handleOpen = () => {
+      console.log("Este es el iderecipe"+ this.props.iderecipe)
+      RecipesActions.fetchOneRecipe(this.props.idrecipe);
     };
-    componentWillUnmount() {
-    RecipesStore.removeListener("fetchedRecipe", this.onRecipeFetched);
-  }
-   onRecipeFetched(){
-     var fullrecipe;
-     console.log('Got full recipe');
 
-     console.log(RecipesStore.getFullRecipe());
-     fullrecipe= RecipesStore.getFullRecipe();
-     this.setState({open: true,recipeInformation: fullrecipe });
-     console.log("Esto es lo que llega a recipe");
-     console.log(this.state.recipeInformation);
-   }
-  handleOpen = () => {
-    console.log("Este es el iderecipe"+ this.props.iderecipe)
-    RecipesActions.fetchOneRecipe(this.props.idrecipe);
-  };
-  handleClose = () => {
-    this.setState({open: false});
-  };
 render(){
   const styleCard = {
    height:'320px',
@@ -80,7 +56,7 @@ render(){
       <p>{this.props.details}</p>
 
     <div style={this.divStyle}>
-      <a style={ {float: 'left'}}>{this.props.time} min</a><a style={{float:'right',fontColor:'green'}}>{this.props.difficulty}</a><br/>
+      <a style={ {float: 'left'}}>{this.props.time} min</a><div style={{float:'right'}}><Difficulty valor={this.props.difficulty}/></div><br/>
       <IconButton  onTouchTap={this.handleOpen.bind(this)} style={{position:'relative',bottom:'10px'}}>
         <ActionFavorite  color={red500}/>
       </IconButton >
@@ -88,7 +64,7 @@ render(){
     </CardText>
 
   </Card>
- <FullRecipeDialog recipeInformation={this.state.recipeInformation} handleClose={this.handleClose.bind(this)} isOpen={this.state.open}/>
+
  </div>
   )
 }
