@@ -13,8 +13,21 @@ import Steps from './Steps'
 export default class FullRecipeDialog extends React.Component {
   constructor(props) {
     super(props);
+    this.state={
+      quantities : [
 
-    };
+      ]
+    }
+  };
+    componentWillReceiveProps(nextProps){
+      console.log("FUllRecipeDialog will receive props")
+      if(typeof nextProps.recipeInformation.quantities !== 'undefined' && nextProps.recipeInformation.quantities !== null){
+        console.log("FUllRecipeDialog se pasa por los huevos el if")
+        this.state={
+          quantities: nextProps.recipeInformation.quantities,
+        }
+      }
+    }
   render() {
     const styleDiv = {
      textAlign: 'center',
@@ -25,7 +38,7 @@ export default class FullRecipeDialog extends React.Component {
      alignItems: 'center',
      marginBottom: '10px'
     }
-    const { quantities } = this.props.recipeInformation;
+    const  quantities  = this.state.quantities;
       const QuantityComponents = quantities.map((quantity) => {
               return <Quantity key={quantity.idingredient} {...quantity} />;
           });
@@ -72,7 +85,7 @@ export default class FullRecipeDialog extends React.Component {
   <div style={styleDiv}>
   {QuantityComponents}</div>
   <h4 style={{textAlign:'center'}}>Directions</h4>
-  //<Steps steps={this.props.steps}/>
+  <Steps steps={this.props.recipeInformation.steps}/>
         </Dialog>
     );
   }
