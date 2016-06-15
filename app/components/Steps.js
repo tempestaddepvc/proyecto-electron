@@ -12,7 +12,6 @@ export default class Steps extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        stepIndex: 0,
         steps: [],
     };
   };
@@ -28,21 +27,16 @@ export default class Steps extends Component {
     }
   }
 }
-changeStepIndex(newIndex){
-  this.setState({
-    stepIndex:newIndex
-  })
 
-}
   render() {
     const StepComponents = this.state.steps.map((step) => {
-            return <CustomStep key={step.idmaking} {...step} changeStepIndex={this.changeStepIndex(step.idmaking).bind(this)}  />;
+            return <CustomStep key={step.idmaking -1} {...step}  />;
         });
     return (
-      <div style={{width: '100%', maxWidth: 700, margin: 'auto'}}>
-        <Stepper linear={false} activeStep={this.state.stepIndex} orientation="vertical">
+      <div>
+
             {StepComponents}
-        </Stepper>
+
       </div>
     );
   }

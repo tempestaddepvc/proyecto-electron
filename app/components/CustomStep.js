@@ -1,32 +1,43 @@
 import React, { Component } from 'react';
-import {
-  Step,
-  Stepper,
-  StepButton,
-  StepContent
-} from 'material-ui/Stepper';
+import Paper from 'material-ui/Paper'
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+
+const muiTheme = getMuiTheme();
 
 export default class Steps extends Component {
   constructor(props) {
     super(props);
   };
+handleTouchButton(){
+  console.log(this.props.idmaking);
 
+  this.props.changeStepIndex(this.props.idmaking);
+    console.log("hola");
+}
   render() {
     return (
-          <Step>
-            <StepButton onTouchTap={this.props.changeStepIndex}>
-              {this.props.step}
-            </StepButton>
-            <StepContent>
-              <img src={this.props.picture} style={{
-                width:'100%',
-                 height:'100%',
-                 margin: 'auto',
-                 display: 'block',
-              }}/>
-            </StepContent>
-          </Step>
+        <Paper style={{position:'relative',height:'100px',marginBottom:'20px'}}>
+              <div style={{position:'absolute',top:'40px',}}>
+              <a style={{
+                backgroundColor:muiTheme.palette.primary1Color,
+                borderRadius: '50%',
+                color:"white",
+                padding:'8px',
+                marginLeft:'5px',
+                textAlign: 'center',
+                fontSize:'15px',
 
+
+              }}>{this.props.idmaking}</a><a style={{paddingLeft:'5px'}}>{this.props.step}</a>
+              </div>
+              <img src={this.props.picture} style={{
+                 maxWidth:'33%',
+                 maxHeight:'100%',
+                 position: 'absolute',
+                 right:'0px',
+                 top:'0px'
+              }}/>
+</Paper>
     );
   }
 }

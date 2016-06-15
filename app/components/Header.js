@@ -137,10 +137,10 @@ export default class Header extends React.Component{
       textIndent: '10px'
     }
   return(
-    <div>
+    <div >
         <AppBar
         title="Proyecto final"
-        iconElementLeft={<IconButton disabled={this.state.disabledButton} onTouchTap={this.handleDrawerToggle.bind(this)}><NavigationMenu /></IconButton>}
+        iconElementLeft={<IconButton disabled={this.state.disabledButton} onTouchTap={this.handleDrawerToggle.bind(this)} ><NavigationMenu /></IconButton>}
       />
       <Drawer
         docked={false}

@@ -1,7 +1,11 @@
 import dispatcher from "../dispatcher";
 import axios from "./axiosConfig";
 import querystring  from 'querystring';
-//...
+import * as FavsActions from './FavsActions';
+
+
+
+
 export function logIn(user,password){
 
   axios.post('/login',querystring.stringify( {
@@ -21,6 +25,7 @@ export function logIn(user,password){
           apiKey: response.data.message
         }});
         dispatcher.dispatch({type:'MESSAGE',message:'Log in succesful'});
+        FavsActions.getFavorites(user);
       }
 
     }

@@ -7,6 +7,10 @@ import Difficulty from './Difficulty';
 import Quantity from './Quantity';
 import Divider from 'material-ui/Divider'
 import Steps from './Steps'
+import FavoriteIcon from './FavoriteIcon'
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+
+const muiTheme = getMuiTheme();
 /**
  * A modal dialog can only be closed by selecting one of the actions.
  */
@@ -48,6 +52,7 @@ export default class FullRecipeDialog extends React.Component {
           modal={true}
           open={this.props.isOpen}
           autoScrollBodyContent={true}
+          contentStyle={{maxHeight:'100%'}}
         >
         <AppBar
         style={{
@@ -56,7 +61,7 @@ export default class FullRecipeDialog extends React.Component {
           left: 0,
         }}
   title={this.props.recipeInformation.name}
-  iconElementLeft={<a></a>}
+  iconElementLeft={<FavoriteIcon idrecipe={this.props.recipeInformation.idrecipe} color={muiTheme.palette.accent1Color}/>}
   iconElementRight={
     <IconButton onTouchTap={this.props.handleClose}><NavigationClose /></IconButton>
   }

@@ -7,6 +7,7 @@ import {red500,green500,yellow500} from 'material-ui/styles/colors';
 import axios from "../actions/axiosConfig";
 import * as RecipesActions from "../actions/RecipesActions";
 import Difficulty from './Difficulty';
+import FavoriteIcon from './FavoriteIcon'
 export default class Recipe extends React.Component{
   constructor(props) {
     super(props);
@@ -45,7 +46,7 @@ render(){
 
   return(
     <div>
-    <Card style={styleCard} >
+    <Card style={styleCard} onTouchTap={this.handleOpen.bind(this)}>
     <CardMedia style={this.imageStyle}
       overlay={   <CardTitle    title={this.props.name} titleStyle={styleContent}/>}
       overlayContainerStyle={this.styleOverlay} overlayStyle={this.styleOverlay}
@@ -56,10 +57,9 @@ render(){
       <p>{this.props.details}</p>
 
     <div style={this.divStyle}>
-      <a style={ {float: 'left'}}>{this.props.time} min</a><div style={{float:'right'}}><Difficulty valor={this.props.difficulty}/></div><br/>
-      <IconButton  onTouchTap={this.handleOpen.bind(this)} style={{position:'relative',bottom:'10px'}}>
-        <ActionFavorite  color={red500}/>
-      </IconButton >
+      <a style={ {float: 'left'}}>{this.props.time} min</a><div style={{float:'right'}}><Difficulty valor={this.props.difficulty}/></div>
+      <FavoriteIcon  color={red500} idrecipe={this.props.idrecipe}   />
+
       </div>
     </CardText>
 

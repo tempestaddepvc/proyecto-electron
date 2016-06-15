@@ -27,6 +27,7 @@ class UserStore extends EventEmitter{
         this.emit('change');
         break;
       }
+
     }
 
 }
