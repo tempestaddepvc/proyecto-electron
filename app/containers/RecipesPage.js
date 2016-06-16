@@ -2,6 +2,10 @@ import React from 'react';
 import Recipe from '../components/Recipe'
 import RecipesStore from "../stores/RecipesStore";
 import FullRecipeDialog from '../components/FullRecipeDialog';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
+import NewRecipeDialog from '../components/NewRecipeDialog';
+import TextField from 'material-ui/TextField';
 export default class RecipesPage extends React.Component{
   constructor(props) {
     super(props);
@@ -10,7 +14,8 @@ export default class RecipesPage extends React.Component{
 
       ],
       open:false,
-      recipeInformation: {}
+      recipeInformation: {},
+      openNewRecipe:false,
     };
   };
   componentWillMount() {
@@ -40,25 +45,48 @@ export default class RecipesPage extends React.Component{
  handleClose = () => {
    this.setState({open: false});
  };
+
+ handleOpenNewRecipe = () =>{
+   this.setState({
+     openNewRecipe: true,
+   })
+ }
+ handleCloseNewRecipe = () => {
+   this.setState({openNewRecipe: false});
+ };
+
 render(){
   const styleDiv = {
    textAlign: 'center',
    marginTop: '10px',
    display: 'flex',
    flexWrap: 'wrap',
-   justifyContent: 'space-between',
    alignItems: 'center',
+   marginRight: '2%',
+   marginLeft: '2%'
+
   }
   const { recipes } = this.state;
     const RecipeComponents = recipes.map((recipe) => {
             return <Recipe key={recipe.idrecipe} {...recipe} />;
         });
 
-console.log(RecipeComponents);
   return(
+    <div>
     <div style={styleDiv}>
     {RecipeComponents}
     <FullRecipeDialog recipeInformation={this.state.recipeInformation} handleClose={this.handleClose.bind(this)} isOpen={this.state.open}/>
+
+  </div>
+
+  <FloatingActionButton   onTouchTap={this.handleOpenNewRecipe} style={{
+    position:'fixed',
+    bottom:'4%',
+    right: '3%',
+  }}>
+    <ContentAdd />
+  </FloatingActionButton>
+  <NewRecipeDialog isOpen={this.state.openNewRecipe} handleClose={this.handleCloseNewRecipe.bind(this)}/>
   </div>
   )
 }

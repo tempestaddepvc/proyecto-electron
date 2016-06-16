@@ -22,7 +22,8 @@ render(){
    height:'320px',
    width:'300px',
    marginBottom:'20px',
-   cursor:'pointer'
+   cursor:'pointer',
+   marginRight:'20px'
     }
   const styleContent={
     fontSize:'75%',

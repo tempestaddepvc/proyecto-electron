@@ -52,7 +52,6 @@ export default class FullRecipeDialog extends React.Component {
           modal={true}
           open={this.props.isOpen}
           autoScrollBodyContent={true}
-          contentStyle={{maxHeight:'100%'}}
         >
         <AppBar
         style={{
@@ -67,8 +66,8 @@ export default class FullRecipeDialog extends React.Component {
   }
 />
 <img  src={this.props.recipeInformation.picture} style={{
-  width:'100%',
-   height:'100%',
+  maxWidth:'100%',
+   maxHeight:'100%',
    margin: 'auto',
    display: 'block',
    marginTop: '40px'
@@ -84,6 +83,7 @@ export default class FullRecipeDialog extends React.Component {
           default:      return " diners";
         }
       })()}</div>
+
   </div>
 
   <h4 style={{textAlign:'center'}}>Ingredients</h4>
@@ -91,7 +91,11 @@ export default class FullRecipeDialog extends React.Component {
   {QuantityComponents}</div>
   <h4 style={{textAlign:'center'}}>Directions</h4>
   <Steps steps={this.props.recipeInformation.steps}/>
+  <h5 style={{
+    float:'right'
+  }}>Recipe created by {this.props.recipeInformation.creator}</h5>
         </Dialog>
+
     );
   }
 }
