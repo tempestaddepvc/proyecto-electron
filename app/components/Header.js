@@ -11,7 +11,7 @@ import dispatcher from "../dispatcher";
 import Snackbar from 'material-ui/Snackbar';
 import * as RecipesActions from '../actions/RecipesActions';
 import Divider from 'material-ui/Divider';
-
+import Search from 'material-ui/svg-icons/action/search';
 
 export default class Header extends React.Component{
 
@@ -157,7 +157,7 @@ export default class Header extends React.Component{
         <MenuItem onTouchTap={this.handleMineAndFavs.bind(this)}>Mine & Favorites</MenuItem>
           <MenuItem onTouchTap={this.handleAllRecipes.bind(this)}>All recipes</MenuItem>
         <Divider/>
-        <MenuItem  menuItems={[
+        <MenuItem   icon={<Search/>} menuItems={[
                 <MenuItem primaryText="By name" onTouchTap={this.handleByName.bind(this)}
               />,
                 <MenuItem primaryText="By ingredients"  />

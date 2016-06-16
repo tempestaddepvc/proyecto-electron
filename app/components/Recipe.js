@@ -2,7 +2,7 @@ import React from 'react';
 import FlatButton from 'material-ui/FlatButton'
 import {Card, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import ActionFavorite from 'material-ui/svg-icons/action/favorite';
-import IconButton from 'material-ui/IconButton';
+import IconButSton from 'material-ui/IconButton';
 import {red500,green500,yellow500} from 'material-ui/styles/colors';
 import axios from "../actions/axiosConfig";
 import * as RecipesActions from "../actions/RecipesActions";
@@ -22,8 +22,8 @@ render(){
    height:'320px',
    width:'300px',
    marginBottom:'20px',
-
-  }
+   cursor:'pointer'
+    }
   const styleContent={
     fontSize:'75%',
     fontWeight:'bold',
@@ -46,7 +46,7 @@ render(){
 
   return(
     <div>
-    <Card style={styleCard} onTouchTap={this.handleOpen.bind(this)}>
+    <Card style={styleCard} onClick={this.handleOpen.bind(this)}>
     <CardMedia style={this.imageStyle}
       overlay={   <CardTitle    title={this.props.name} titleStyle={styleContent}/>}
       overlayContainerStyle={this.styleOverlay} overlayStyle={this.styleOverlay}

@@ -28,20 +28,29 @@ export default class Favorite extends React.Component{
     console.log(FavsStore.getFavs());
     if(FavsStore.getFavs().includes(this.state.id)){
       this.setState({
-        icon: <FavoriteIcon color={this.props.color}/>
+        icon: <FavoriteIcon color={this.props.color}/>,
+        favorite: true
       });
     }else{
       this.setState({
-        icon: <BorderFavoriteIcon color={this.props.color}/>
+        icon: <BorderFavoriteIcon color={this.props.color}/>,
+        favorite: false
       });
     }
 
   }
 
-
+handleTouch(e){
+  e.stopPropagation();
+  if(!this.state.favorite){
+    FavsActions.createFav(this.state.id);
+  }else {
+    FavsActions.deleteFav(this.state.id);
+  }
+}
 render(){
   return(
-      <IconButton>{this.state.icon}</IconButton>
+      <IconButton onClick={this.handleTouch.bind(this)}>{this.state.icon}</IconButton>
   )
 }
 
