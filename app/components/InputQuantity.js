@@ -2,7 +2,16 @@ import React, { Component } from 'react';
 import styles from './Home.css';
 import AutoComplete from 'material-ui/AutoComplete';
 import TextField from 'material-ui/TextField';
+import NavigationClose from 'material-ui/svg-icons/navigation/close';
+import IconButton from 'material-ui/IconButton';
 export default class InputQuantity extends Component {
+  constructor(props) {
+    super(props);
+  };
+  handleRemove(){
+    console.log(Date.now());
+    this.props.deleteQuantityInput(this.props.id);
+  }
   render() {
     const styleDiv = {
      textAlign: 'center',
@@ -11,6 +20,7 @@ export default class InputQuantity extends Component {
      justifyContent: 'space-between',
      alignItems: 'center',
     }
+
     return (
        <div style={styleDiv}>
         <AutoComplete
@@ -41,6 +51,7 @@ export default class InputQuantity extends Component {
               width: '80px',
             }}
           />
+          <IconButton onTouchTap={this.handleRemove.bind(this)}><NavigationClose /></IconButton>
           </div>
     );
   }

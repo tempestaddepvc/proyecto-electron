@@ -8,12 +8,6 @@ export default class Steps extends Component {
   constructor(props) {
     super(props);
   };
-handleTouchButton(){
-  console.log(this.props.idmaking);
-
-  this.props.changeStepIndex(this.props.idmaking);
-    console.log("hola");
-}
   render() {
     return (
         <Paper style={{position:'relative',height:'100px',marginBottom:'20px'}}>

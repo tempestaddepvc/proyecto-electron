@@ -8,14 +8,15 @@ import Steps from './Steps'
 import FavoriteIcon from './FavoriteIcon'
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import TextField from 'material-ui/TextField';
-import FlatButton from 'material-ui/FlatButton';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import axios from "../actions/axiosConfig";
 import InputQuantity from "./InputQuantity"
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
-
+import InputSteps from './InputSteps'
+import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 const muiTheme = getMuiTheme();
 /**
  * A modal dialog can only be closed by selecting one of the actions.
@@ -29,6 +30,8 @@ export default class NewRecipeDialog extends React.Component {
    value: 1,
    allIngredients: [],
    quantities: [0],
+   steps: [0],
+
  };
   };
   updateAllIngredients = (ingredients) => {
@@ -71,10 +74,46 @@ componentWillMount(){
  }
  handleChange = (event, index, value) => this.setState({value});
  appendQuantityInput() {
-      var newInput = this.state.quantities.length;
-      this.setState({ quantities: this.state.quantities.concat([newInput]) });
+      this.setState({ quantities: this.state.quantities.concat([Date.now()]) });
   }
+  deleteQuantityInput(number){
+    var index=this.state.quantities.indexOf(number);
+    this.state.quantities.splice(index,1);
+    this.setState({
+      quantities:this.state.quantities
+    })
+    console.log("Quantities despues de eliminar");
+    console.log(this.state.quantities);
+  }
+  appendStepInput() {
+        this.setState({ steps: this.state.steps.concat([Date.now()]) });
+    }
+    deleteStepInput(number){
+      var index=this.state.steps.indexOf(number);
+      this.state.steps.splice(index,1);
+      this.setState({
+        steps:this.state.steps
+      })
+      console.log("Steps despues de eliminar");
+      console.log(this.state.steps);
+    }
+
   render() {
+    const    inputsQuantities=this.state.quantities.map(quantity => <InputQuantity key={quantity} id={quantity} deleteQuantityInput={this.deleteQuantityInput.bind(this)} allIngredients={this.state.allIngredients}/>)
+    const    inputsSteps=this.state.steps.map(step => <InputSteps key={step} id={step} deleteStepInput={this.deleteStepInput.bind(this)}/>)
+    const actions = [
+          <FlatButton
+            label="Cancel"
+            primary={true}
+            onTouchTap={this.handleClose}
+          />,
+          <FlatButton
+            label="Submit"
+            primary={true}
+            keyboardFocused={true}
+            onTouchTap={this.handleClose}
+          />,
+        ];
     let {
    imagePreviewUrl
  } = this.state;
@@ -104,6 +143,7 @@ componentWillMount(){
           modal={true}
           open={this.props.isOpen}
           autoScrollBodyContent={true}
+          actions={actions}
         >
         <AppBar
         style={{
@@ -186,7 +226,7 @@ ref='details'
   />
   </div>
       <h4 style={{textAlign:'center',marginTop:'50px'}}>Ingredients</h4>
-    {this.state.quantities.map(quantity => <InputQuantity key={quantity} allIngredients={this.state.allIngredients}/>)}
+        {inputsQuantities}
     <FloatingActionButton mini={true}  onTouchTap={this.appendQuantityInput.bind(this)} style={{
       marginTop:'10px',
       marginBottom:'10px',
@@ -196,8 +236,13 @@ ref='details'
         </FloatingActionButton>
 
   <h4 style={{textAlign:'center'}}>Directions</h4>
-  <p>Pasos</p>
-
+      {inputsSteps}
+      <FloatingActionButton mini={true}  onTouchTap={this.appendStepInput.bind(this)} style={{
+        marginTop:'10px',
+        marginBottom:'10px',
+        marginLeft:'10px'
+      }}><ContentAdd />
+    </FloatingActionButton>
         </Dialog>
 
     );
