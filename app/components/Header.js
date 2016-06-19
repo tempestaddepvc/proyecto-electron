@@ -139,7 +139,11 @@ export default class Header extends React.Component{
   return(
     <div >
         <AppBar
-        title="Proyecto final"
+        style={{
+          position:'fixed',
+          top:'0px'
+        }}
+        title="Cooking4all"
         iconElementLeft={<IconButton disabled={this.state.disabledButton} onTouchTap={this.handleDrawerToggle.bind(this)} ><NavigationMenu /></IconButton>}
       />
       <Drawer

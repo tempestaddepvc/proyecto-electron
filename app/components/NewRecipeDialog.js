@@ -44,7 +44,7 @@ export default class NewRecipeDialog extends React.Component {
   };
 componentWillMount(){
   var self=this;
-  axios.get('/ingredients').then(function (response){
+  axios.get('http://52.31.144.145/api/v1/ingredients').then(function (response){
     console.log("Ingredientes");
     console.log(response.data.message);
     self.updateAllIngredients(response.data.message);
@@ -166,7 +166,7 @@ componentWillMount(){
         }
         }
       }
-      this.handleClose();
+      var self=this;
       setTimeout(function(){
         console.log(JSON.stringify(json));
 
@@ -179,6 +179,7 @@ componentWillMount(){
         }
         ).then(function(response){
           console.log('FUNSIONA WEON')
+                self.handleClose();
         }).catch(function(response){
 
           console.log('Casi funciona el createRecipe,pero no');

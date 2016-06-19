@@ -41,6 +41,7 @@ export default class Header extends React.Component{
       ref='username'
         hintText="User"
         floatingLabelText="User"
+        maxLength="15"
       /></li>
       <li><TextField
       ref='password'

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import styles from './Home.css';
 import AutoComplete from 'material-ui/AutoComplete';
 import TextField from 'material-ui/TextField';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';

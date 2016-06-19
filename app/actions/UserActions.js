@@ -52,6 +52,36 @@ export function register(user,password){
   }))
   .then(function (response) {
     dispatcher.dispatch({type:'MESSAGE',message:"Registering succesful"});
+
+
+      axios.post('/login',querystring.stringify( {
+        user: user,
+        password: password
+      }))
+      .then(function (response) {
+        if(response.data.error='false'){
+          if(response.data.message==1 || response.data.message==2){
+            dispatcher.dispatch({type:'MESSAGE',message:'Incorrect credentials'});
+          }else{
+
+            dispatcher.dispatch(
+              {type: 'LOG_IN',
+              usuario:{
+              user: user,
+              apiKey: response.data.message
+            }});
+            FavsActions.getFavorites(user);
+          }
+
+        }
+        else{
+          dispatcher.dispatch({type:'MESSAGE',message:response.data.message});
+        }
+      })
+      .catch(function (response) {
+        console.log(response);
+        dispatcher.dispatch({type:'MESSAGE',message:response.data.message});
+      });
   })
   .catch(function (response) {
     dispatcher.dispatch({type:'MESSAGE',message:response.data.message});

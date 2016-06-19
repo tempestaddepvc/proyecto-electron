@@ -63,7 +63,7 @@ export function searchByName(name){
     console.log(response);
     dispatcher.dispatch({
       type: 'RECEIVE_RECIPES',
-      recipes:response.data.recipes,
+      recipes:response.data.message,
     }
     );
   }).catch(function (response) {

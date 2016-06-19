@@ -112,7 +112,9 @@
     "react-router-redux": "^4.0.4",
     "redux": "^3.5.2",
     "redux-thunk": "^2.1.0",
-    "source-map-support": "^0.4.0"
+    "source-map-support": "^0.4.0",
+    "util": "^0.10.3",
+    "utils": "^0.3.1"
   },
   "devEngines": {
     "node": "4.x || 5.x || 6.x",

@@ -62,7 +62,7 @@ export default class Steps extends Component {
               ref='step'
                 hintText="Step"
                 floatingLabelText="Step"
-
+                maxLength="45"
               />
 
               </div>

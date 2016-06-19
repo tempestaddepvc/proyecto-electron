@@ -58,7 +58,7 @@ export default class RecipesPage extends React.Component{
 render(){
   const styleDiv = {
    textAlign: 'center',
-   marginTop: '10px',
+   marginTop: '75px',
    display: 'flex',
    flexWrap: 'wrap',
    alignItems: 'center',
@@ -73,7 +73,15 @@ render(){
   return(
     <div>
     <div style={styleDiv}>
-    {RecipeComponents}
+
+    {(() => {
+      console.log("Hay recetas????????")
+      console.log(this.state.recipes);
+      switch (this.state.recipes.length) {
+        case 0:   return <div style={{textAlign:"center",margin: "auto"}}><img src="./components/Notfound.png"/></div>;
+        default:      return RecipeComponents;
+      }
+    })()}
     <FullRecipeDialog recipeInformation={this.state.recipeInformation} handleClose={this.handleClose.bind(this)} isOpen={this.state.open}/>
 
   </div>
