@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from "axios";
 import Dialog from 'material-ui/Dialog';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import AppBar from 'material-ui/AppBar';
@@ -10,13 +11,14 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import axios from "../actions/axiosConfig";
 import InputQuantity from "./InputQuantity"
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import InputSteps from './InputSteps'
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
+import querystring  from 'querystring';
+import UserStore from '../stores/UserStore';
 const muiTheme = getMuiTheme();
 /**
  * A modal dialog can only be closed by selecting one of the actions.
@@ -25,7 +27,7 @@ export default class NewRecipeDialog extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-   file: '',
+   file: 'a',
    imagePreviewUrl: '',
    value: 1,
    allIngredients: [],
@@ -97,23 +99,123 @@ componentWillMount(){
       console.log("Steps despues de eliminar");
       console.log(this.state.steps);
     }
+    uploadRecipe(){
+      var json = {};
+      json.name=this.refs.name.getValue();
+      json.details=this.refs.details.getValue();
+      json.time=Number(this.refs.time.getValue());
+      json.diners=Number(this.refs.diners.getValue());
+      json.difficulty=this.state.value;
+      json.quantities=[];
+      json.steps=[];
+      console.log(this.refs)
+
+      if (this.state.file=='a') {
+    json.picture="";
+}else{
+  var data = new FormData();
+  data.append('image',this.state.file)
+      axios.post('https://api.imgur.com/3/image',data,{
+        headers:{
+          authorization:"Client-ID 78af42f7d86086c"
+        }
+      }
+      ).then(function(response){
+        json.picture=(response.data.data.link);
+      }).catch(function(response){
+        console.log(response);
+
+      })
+      }
+      for (let component of Object.keys(this.refs).map(key => this.refs[key])) {
+        if(Object.getPrototypeOf(component) == InputQuantity.prototype){
+          json.quantities.push({
+            name:component.refs.name.getValue(),
+            cant:component.refs.cant.getValue(),
+            measure:component.refs.measure.getValue(),
+          })
+        } else if(Object.getPrototypeOf(component) == InputSteps.prototype){
+          console.log("La picture");
+          console.log(component.state.file);
+          if (typeof component.state.file === 'undefined' || component.state.file === null) {
+            console.log("La picture");
+            console.log(component.state.file)
+            json.steps.push({
+              step: component.refs.step.getValue(),
+              picture:""
+            })
+
+    }
+    else{
+      var data = new FormData();
+      data.append('image',component.state.file)
+          axios.post('https://api.imgur.com/3/image',data,{
+            headers:{
+              authorization:"Client-ID 78af42f7d86086c"
+            }
+          }
+          ).then(function(response){
+            json.steps.push({
+              step: component.refs.step.getValue(),
+              picture:response.data.data.link
+            })
+          }).catch(function(response){
+            console.log(response);
+
+          })
+        }
+        }
+      }
+      this.handleClose();
+      setTimeout(function(){
+        console.log(JSON.stringify(json));
+
+        axios.post('http://52.31.144.145/api/v1/recipes',querystring.stringify( {
+          recipe: JSON.stringify(json),
+        }),{
+          headers:{
+            authorization:UserStore.getApiKey()
+          }
+        }
+        ).then(function(response){
+          console.log('FUNSIONA WEON')
+        }).catch(function(response){
+
+          console.log('Casi funciona el createRecipe,pero no');
+          console.log(response);
+
+        })
+
+      }, 1500);
+
+    }
+    handleClose(){
+      this.props.handleClose();
+
+
+        this.state = {
+       file: 'a',
+       imagePreviewUrl: '',
+       value: 1,
+       allIngredients: [],
+       quantities: "",
+       steps: "",
+
+    }
+    this.state = {
+   file: 'a',
+   imagePreviewUrl: '',
+   value: 1,
+   allIngredients: [],
+   quantities: [0],
+   steps: [0],
+
+}
+}
 
   render() {
-    const    inputsQuantities=this.state.quantities.map(quantity => <InputQuantity key={quantity} id={quantity} deleteQuantityInput={this.deleteQuantityInput.bind(this)} allIngredients={this.state.allIngredients}/>)
-    const    inputsSteps=this.state.steps.map(step => <InputSteps key={step} id={step} deleteStepInput={this.deleteStepInput.bind(this)}/>)
-    const actions = [
-          <FlatButton
-            label="Cancel"
-            primary={true}
-            onTouchTap={this.handleClose}
-          />,
-          <FlatButton
-            label="Submit"
-            primary={true}
-            keyboardFocused={true}
-            onTouchTap={this.handleClose}
-          />,
-        ];
+    const    inputsQuantities=this.state.quantities.map(quantity => <InputQuantity key={quantity} id={quantity} ref={'quantity'+quantity}  deleteQuantityInput={this.deleteQuantityInput.bind(this)} allIngredients={this.state.allIngredients}/>)
+    const    inputsSteps=this.state.steps.map(step => <InputSteps key={step} id={step} ref={'step'+ step} deleteStepInput={this.deleteStepInput.bind(this)}/>)
     let {
    imagePreviewUrl
  } = this.state;
@@ -143,7 +245,6 @@ componentWillMount(){
           modal={true}
           open={this.props.isOpen}
           autoScrollBodyContent={true}
-          actions={actions}
         >
         <AppBar
         style={{
@@ -154,7 +255,7 @@ componentWillMount(){
   title={'New Recipe'}
   iconElementLeft={<a></a>}
   iconElementRight={
-    <IconButton onTouchTap={this.props.handleClose}><NavigationClose /></IconButton>
+    <IconButton onTouchTap={this.handleClose.bind(this)}><NavigationClose /></IconButton>
   }
 />
 <div style={{
@@ -165,6 +266,7 @@ componentWillMount(){
 
 }}
 ref='name'
+maxLength="45"
   hintText="Recipe name"
   floatingLabelText="Recipe Name"
 />
@@ -188,6 +290,7 @@ ref='name'
 
 }}
 ref='details'
+maxLength="45"
   hintText="Recipe description"
   floatingLabelText="Recipe description"
 />
@@ -196,6 +299,7 @@ ref='details'
   <TextField
   ref='time'
   type='number'
+  maxLength="10"
     hintText="Time(in minutes)"
     floatingLabelText="Time(in minutes)"
     inputStyle={{
@@ -205,7 +309,7 @@ ref='details'
       width: '125px',
     }}
   />
-  <SelectField value={this.state.value} onChange={this.handleChange} floatingLabelText='Difficulty' style={{
+  <SelectField ref='difficulty' value={this.state.value} onChange={this.handleChange} floatingLabelText='Difficulty' style={{
     width: '125px',
   }}>
   <MenuItem value={0}  primaryText="Easy" />
@@ -215,6 +319,7 @@ ref='details'
   <TextField
   ref='diners'
   type='number'
+  maxLength="10"
     hintText="Diners number"
     floatingLabelText="Diners number"
     inputStyle={{
@@ -243,6 +348,16 @@ ref='details'
         marginLeft:'10px'
       }}><ContentAdd />
     </FloatingActionButton>
+    <br/>
+    <div style={{textAlign:"center"}}>
+    <FlatButton
+      label="Submit"
+      primary={true}
+      keyboardFocused={true}
+      onTouchTap={this.uploadRecipe.bind(this)}
+
+    />
+    </div>
         </Dialog>
 
     );

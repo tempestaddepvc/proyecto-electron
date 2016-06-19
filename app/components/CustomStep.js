@@ -22,7 +22,7 @@ export default class Steps extends Component {
                 fontSize:'15px',
 
 
-              }}>{this.props.idmaking}</a><a style={{paddingLeft:'5px'}}>{this.props.step}</a>
+              }}>{this.props.stepNumber}</a><a style={{paddingLeft:'5px'}}>{this.props.step}</a>
               </div>
               <img src={this.props.picture} style={{
                  maxWidth:'33%',

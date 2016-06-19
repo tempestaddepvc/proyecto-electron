@@ -7,11 +7,16 @@ import IconButton from 'material-ui/IconButton';
 export default class InputQuantity extends Component {
   constructor(props) {
     super(props);
+    this.state={
+      quantity:"22",
+      measure:"ml",
+    }
   };
   handleRemove(){
     console.log(Date.now());
     this.props.deleteQuantityInput(this.props.id);
   }
+
   render() {
     const styleDiv = {
      textAlign: 'center',
@@ -24,6 +29,7 @@ export default class InputQuantity extends Component {
     return (
        <div style={styleDiv}>
         <AutoComplete
+        ref='name'
             floatingLabelText="Ingredient name"
             filter={AutoComplete.caseInsensitiveFilter}
             openOnFocus={true}
@@ -32,7 +38,7 @@ export default class InputQuantity extends Component {
 
           />
           <TextField
-          ref='quantity'
+          ref='cant'
           type='number'
             hintText="Quantity"
             floatingLabelText="Quantity"

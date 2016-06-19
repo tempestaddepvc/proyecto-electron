@@ -19,7 +19,6 @@ export default class Recipe extends React.Component{
 
 render(){
   const styleCard = {
-   height:'320px',
    width:'300px',
    marginBottom:'20px',
    cursor:'pointer',
@@ -48,7 +47,7 @@ render(){
   return(
     <div>
     <Card style={styleCard} onClick={this.handleOpen.bind(this)}>
-    <CardMedia style={this.imageStyle}
+    <CardMedia mediaStyle={this.imageStyle}
       overlay={   <CardTitle    title={this.props.name} titleStyle={styleContent}/>}
       overlayContainerStyle={this.styleOverlay} overlayStyle={this.styleOverlay}
     >

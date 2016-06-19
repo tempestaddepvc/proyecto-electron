@@ -62,7 +62,6 @@ render(){
    display: 'flex',
    flexWrap: 'wrap',
    alignItems: 'center',
-   marginRight: '2%',
    marginLeft: '2%'
 
   }

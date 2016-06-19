@@ -29,8 +29,8 @@ export default class Steps extends Component {
 }
 
   render() {
-    const StepComponents = this.state.steps.map((step) => {
-            return <CustomStep key={step.idmaking -1} {...step}  />;
+    const StepComponents = this.state.steps.map((step,i) => {
+            return <CustomStep stepNumber={i +1} key={step.idmaking -1} {...step}  />;
         });
     return (
       <div>
