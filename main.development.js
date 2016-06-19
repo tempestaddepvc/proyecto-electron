@@ -235,6 +235,6 @@ app.on('ready', () => {
       }]
     }];
     menu = Menu.buildFromTemplate(template);
-    mainWindow.setMenu(menu);
+    mainWindow.setMenu(null);
   }
 });
