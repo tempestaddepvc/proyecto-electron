@@ -161,11 +161,7 @@ export default class Header extends React.Component{
         <MenuItem onTouchTap={this.handleMineAndFavs.bind(this)}>Mine & Favorites</MenuItem>
           <MenuItem onTouchTap={this.handleAllRecipes.bind(this)}>All recipes</MenuItem>
         <Divider/>
-        <MenuItem   icon={<Search/>} menuItems={[
-                <MenuItem primaryText="By name" onTouchTap={this.handleByName.bind(this)}
-              />,
-                <MenuItem primaryText="By ingredients"  />
-              ]}>Search</MenuItem>
+        <MenuItem   icon={<Search/>} onTouchTap={this.handleByName.bind(this)}>Search by name</MenuItem>
 
          <Divider />
         <MenuItem onTouchTap={this.onTapLogOut.bind(this)}>Log out</MenuItem>
