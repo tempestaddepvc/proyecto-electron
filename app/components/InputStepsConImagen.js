@@ -27,7 +27,8 @@ export default class Steps extends Component {
 
    reader.onloadend = () => {
      this.setState({
-
+       file: file,
+       imagePreviewUrl: reader.result
      });
    }
 
@@ -38,11 +39,25 @@ export default class Steps extends Component {
   }
   render() {
 
-
+        let {
+       imagePreviewUrl
+     } = this.state;
+     let $imagePreview = null;
+     if (imagePreviewUrl) {
+       $imagePreview = (<img src={imagePreviewUrl} style={{
+         maxWidth:'100%',
+          maxHeight:'100%',
+          margin: 'auto',
+          display: 'block',
+       }}/>);
+     } else {
+       $imagePreview = (<div >Please select an image for the step</div>);
+     }
     return (
       <div>
         <Paper style={{position:'relative',height:'100px',marginBottom:'20px',maxWidth:'80%'}}>
-  
+              <div >
+
               <TextField
               ref='step'
                 hintText="Step"
@@ -50,7 +65,21 @@ export default class Steps extends Component {
                 maxLength="45"
               />
 
-
+              </div>
+              <form onSubmit={(e)=>this._handleSubmit(e)} style={{
+                marginTop:'10px'
+              }}>
+                <input className="fileInput" type="file" onChange={(e)=>this._handleImageChange(e)} />
+              </form>
+              <div style={{
+                 maxWidth:'33%',
+                 maxHeight:'100%',
+                 position: 'absolute',
+                 right:'0px',
+                 top:'0px'
+              }}>
+                {$imagePreview}
+              </div>
 </Paper>
 <IconButton onTouchTap={this.handleRemove.bind(this)}><NavigationClose /></IconButton>
 

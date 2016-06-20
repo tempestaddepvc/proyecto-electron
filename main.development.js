@@ -20,7 +20,7 @@ app.on('ready', () => {
     show: false,
     width: 1024,
     height: 728,
-    icon:'./app/components/logo.png'
+    icon:'./logo.png'
   });
 
   mainWindow.loadURL(`file://${__dirname}/app/app.html`);

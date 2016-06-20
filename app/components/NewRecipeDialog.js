@@ -113,7 +113,9 @@ componentWillMount(){
       if (this.state.file=='a') {
     json.picture="";
 }else{
+
   var data = new FormData();
+
   data.append('image',this.state.file)
       axios.post('https://api.imgur.com/3/image',data,{
         headers:{
@@ -135,41 +137,17 @@ componentWillMount(){
             measure:component.refs.measure.getValue(),
           })
         } else if(Object.getPrototypeOf(component) == InputSteps.prototype){
-          console.log("La picture");
-          console.log(component.state.file);
-          if (typeof component.state.file === 'undefined' || component.state.file === null) {
-            console.log("La picture");
-            console.log(component.state.file)
             json.steps.push({
               step: component.refs.step.getValue(),
               picture:""
             })
 
-    }
-    else{
-      var data = new FormData();
-      data.append('image',component.state.file)
-          axios.post('https://api.imgur.com/3/image',data,{
-            headers:{
-              authorization:"Client-ID 78af42f7d86086c"
-            }
-          }
-          ).then(function(response){
-            json.steps.push({
-              step: component.refs.step.getValue(),
-              picture:response.data.data.link
-            })
-          }).catch(function(response){
-            console.log(response);
 
-          })
-        }
         }
       }
       var self=this;
       setTimeout(function(){
         console.log(JSON.stringify(json));
-
         axios.post('http://52.31.144.145/api/v1/recipes',querystring.stringify( {
           recipe: JSON.stringify(json),
         }),{
@@ -183,13 +161,22 @@ componentWillMount(){
         }).catch(function(response){
 
           console.log('Casi funciona el createRecipe,pero no');
+          console.log(json);
           console.log(response);
 
         })
 
-      }, 1500);
+      }, 3000);
 
     }
+    sleep(milliseconds) {
+  var start = new Date().getTime();
+  for (var i = 0; i < 1e7; i++) {
+    if ((new Date().getTime() - start) > milliseconds){
+      break;
+    }
+  }
+}
     handleClose(){
       this.props.handleClose();
 
